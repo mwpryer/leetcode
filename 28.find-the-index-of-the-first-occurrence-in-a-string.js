@@ -52,15 +52,41 @@
  * @return {number}
  */
 var strStr = function (haystack, needle) {
-  for (let i = 0; i <= haystack.length - needle.length; i++) {
-    let match = true
-    for (let j = 0; j < needle.length; j++) {
-      if (haystack[i + j] !== needle[j]) {
-        match = false
-        break
+  // KMP algorithm
+  const lps = [0]
+  let k = 0
+  let i = 1
+  // compute LPS table for every substring of the needle
+  while (i < needle.length) {
+    if (needle[k] === needle[i]) {
+      lps[i] = k + 1
+      k++
+      i++
+    } else {
+      if (k > 0) {
+        // consider case: aabaaa
+        k = lps[k - 1]
+      } else {
+        lps[i] = 0
+        i++
       }
     }
-    if (match) return i
+  }
+  k = 0
+  i = 0
+  while (i < haystack.length) {
+    if (haystack[i] === needle[k]) {
+      k++
+      if (k === needle.length) return i - k + 1
+      i++
+    } else {
+      if (k > 0) {
+        // go to index of longest prefix already matched by suffix
+        k = lps[k - 1]
+      } else {
+        i++
+      }
+    }
   }
   return -1
 }
