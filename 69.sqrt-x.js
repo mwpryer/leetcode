@@ -55,10 +55,19 @@
  * @return {number}
  */
 var mySqrt = function (x) {
-  for (let i = 0; i <= x; i++) {
-    const sqr = i ** 2
-    if (sqr === x) return i
-    if (sqr > x) return i - 1
+  let left = 0
+  let right = x
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2)
+    const sqr = mid ** 2
+    if (sqr === x) {
+      return mid
+    } else if (sqr < x) {
+      left = mid + 1
+    } else {
+      right = mid - 1
+    }
   }
+  return right
 }
 // @lc code=end
