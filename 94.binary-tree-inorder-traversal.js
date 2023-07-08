@@ -64,9 +64,21 @@
  * @return {number[]}
  */
 var inorderTraversal = function (root) {
-  if (root === null) return []
-  const left = inorderTraversal(root.left)
-  const right = inorderTraversal(root.right)
-  return [...left, root.val, ...right]
+  const vals = []
+  const stack = []
+  let curr = root
+  while (curr || stack.length) {
+    if (curr) {
+      // Keep traversing left
+      stack.push(curr)
+      curr = curr.left
+    } else {
+      // Reached leaf node
+      curr = stack.pop()
+      vals.push(curr.val)
+      curr = curr.right
+    }
+  }
+  return vals
 }
 // @lc code=end
