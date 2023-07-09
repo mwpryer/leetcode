@@ -58,10 +58,16 @@
  */
 var isSymmetric = function (root) {
   function isMirrorTree(left, right) {
-    if (!left && !right) return true
-    if ((!left && right) || (left && !right)) return false
-    if (left.val !== right.val) return false
-    return isMirrorTree(left.left, right.right) && isMirrorTree(left.right, right.left)
+    const stack = [left, right]
+    while (stack.length) {
+      const curr1 = stack.pop()
+      const curr2 = stack.pop()
+      if (!curr1 && !curr2) return true
+      if ((!curr1 && curr2) || (curr1 && !curr2) || curr1.val !== curr2.val) return false
+      if (curr1.left || curr2.right) stack.push(curr1.left, curr2.right)
+      if (curr1.right || curr2.left) stack.push(curr1.right, curr2.left)
+    }
+    return true
   }
   return isMirrorTree(root.left, root.right)
 }
