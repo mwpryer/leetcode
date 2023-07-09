@@ -66,9 +66,15 @@
  * @return {boolean}
  */
 var isSameTree = function (p, q) {
-  if (!p && !q) return true
-  if ((!p && q) || (p && !q)) return false
-  if (p.val !== q.val) return false
-  return isSameTree(p.left, q.left) && isSameTree(p.right, q.right)
+  let stack = [p, q]
+  while (stack.length) {
+    const curr1 = stack.pop()
+    const curr2 = stack.pop()
+    if (!curr1 && !curr2) return true
+    if ((!curr1 && curr2) || (curr1 && !curr2) || curr1.val !== curr2.val) return false
+    if (curr1.left || curr2.left) stack.push(curr1.left, curr2.left)
+    if (curr1.right || curr2.right) stack.push(curr1.right, curr2.right)
+  }
+  return true
 }
 // @lc code=end
