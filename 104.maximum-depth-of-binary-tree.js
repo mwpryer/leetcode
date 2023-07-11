@@ -58,8 +58,17 @@
  */
 var maxDepth = function (root) {
   if (!root) return 0
-  const left = maxDepth(root.left)
-  const right = maxDepth(root.right)
-  return Math.max(left, right) + 1
+  let depth = 0
+  const queue = [root]
+  while (queue.length > 0) {
+    depth++
+    const n = queue.length
+    for (let i = 0; i < n; i++) {
+      const curr = queue.shift()
+      if (curr.left) queue.push(curr.left)
+      if (curr.right) queue.push(curr.right)
+    }
+  }
+  return depth
 }
 // @lc code=end
