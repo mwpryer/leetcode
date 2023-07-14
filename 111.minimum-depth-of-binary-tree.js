@@ -60,8 +60,18 @@
  */
 var minDepth = function (root) {
   if (!root) return 0
-  if (!root.left) return minDepth(root.right) + 1
-  if (!root.right) return minDepth(root.left) + 1
-  return Math.min(minDepth(root.left), minDepth(root.right)) + 1
+  let depth = 0
+  const queue = [root]
+  while (queue.length > 0) {
+    depth++
+    const n = queue.length
+    for (let i = 0; i < n; i++) {
+      const curr = queue.shift()
+      if (!curr.left && !curr.right) return depth
+      if (curr.left) queue.push(curr.left)
+      if (curr.right) queue.push(curr.right)
+    }
+  }
+  return depth
 }
 // @lc code=end
