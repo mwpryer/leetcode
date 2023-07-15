@@ -49,17 +49,15 @@
  * @return {number[]}
  */
 var getRow = function (rowIndex) {
-  let prev = []
+  if (rowIndex == 0) return [1]
+  const prev = getRow(rowIndex - 1)
+  const res = []
   for (let i = 0; i <= rowIndex; i++) {
-    const curr = [1]
-    for (let j = 0; j < i; j++) {
-      curr.push(1)
-      if (prev[j - 1] && prev[j]) {
-        curr[j] = prev[j - 1] + prev[j]
-      }
+    res.push(1)
+    if (prev[i - 1] && prev[i]) {
+      res[i] = prev[i - 1] + prev[i]
     }
-    prev = curr
   }
-  return prev
+  return res
 }
 // @lc code=end
