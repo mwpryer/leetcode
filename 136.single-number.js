@@ -48,13 +48,10 @@
  * @return {number}
  */
 var singleNumber = function (nums) {
-  const counts = {}
+  let ans = 0
   for (const num of nums) {
-    if (!counts[num]) counts[num] = 0
-    counts[num]++
+    ans = ans ^ num
   }
-  for (const num of nums) {
-    if (counts[num] === 1) return num
-  }
+  return ans
 }
 // @lc code=end
