@@ -66,8 +66,14 @@
  */
 var preorderTraversal = function (root) {
   if (!root) return []
-  const left = preorderTraversal(root.left)
-  const right = preorderTraversal(root.right)
-  return [root.val, ...left, ...right]
+  const vals = []
+  const stack = [root]
+  while (stack.length) {
+    const curr = stack.pop()
+    vals.push(curr.val)
+    if (curr.right) stack.push(curr.right)
+    if (curr.left) stack.push(curr.left)
+  }
+  return vals
 }
 // @lc code=end
