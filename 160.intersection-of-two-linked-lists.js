@@ -125,14 +125,24 @@
  */
 var getIntersectionNode = function (headA, headB) {
   let currA = headA
-  while (currA) {
-    let currB = headB
-    while (currB) {
-      if (currA === currB) return currA
-      currB = currB.next
+  let currB = headB
+  // Follow path A+B and B+A to even out distance to intersection
+  while (currA !== currB) {
+    // Reached end, no intersection
+    if (!currA.next && !currB.next) return null
+    // Traverse list A or switch to B
+    if (currA.next) {
+      currA = currA.next
+    } else {
+      currA = headB
     }
-    currA = currA.next
+    // Traverse list B or switch to A
+    if (currB.next) {
+      currB = currB.next
+    } else {
+      currB = headA
+    }
   }
-  return null
+  return currA
 }
 // @lc code=end
