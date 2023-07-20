@@ -59,15 +59,12 @@
  * @return {number}
  */
 var lengthOfLongestSubstring = function (s) {
-  const seen = new Set()
+  const seen = {}
   let start = 0
   let max = 0
   for (let i = 0; i < s.length; i++) {
-    while (seen.has(s[i])) {
-      seen.delete(s[start])
-      start += 1
-    }
-    seen.add(s[i])
+    if (s[i] in seen) start = Math.max(start, seen[s[i]] + 1)
+    seen[s[i]] = i
     max = Math.max(max, i - start + 1)
   }
   return max
