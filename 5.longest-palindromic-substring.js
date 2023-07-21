@@ -46,20 +46,32 @@
  * @param {string} s
  * @return {string}
  */
-function isPalindrome(i, j, s) {
-  for (let k = 0; k < (j - i) / 2; k++) {
-    if (s[i + k] !== s[j - k]) return false
-  }
-  return true
-}
 var longestPalindrome = function (s) {
   let start = 0
   let end = 0
+  // Dynamic programming table for length of palindrome in range [i, j]
+  const dp = new Array(s.length).fill().map(() => new Array(s.length).fill(0))
   for (let i = 0; i < s.length; i++) {
-    for (let j = i; j < s.length; j++) {
-      if (isPalindrome(i, j, s) && j - i > end - start) {
-        start = i
-        end = j
+    // Base case, one character forms palindrome
+    dp[i][i] = 1
+    // Base case, two characters form palindrome if equal
+    if (s[i] === s[i + 1]) {
+      dp[i][i + 1] = 2
+      start = i
+      end = i + 1
+    }
+  }
+  // Handle substrings larger than 2 characters
+  for (let j = 0; j < s.length; j++) {
+    for (let i = 0; i < s.length; i++) {
+      if (j < i + 2) continue
+      // Check if extended substring is also palindrome
+      if (s[i] === s[j] && dp[i + 1][j - 1] > 0) {
+        dp[i][j] = j - i + 1
+        if (dp[i][j] > end - start) {
+          start = i
+          end = j
+        }
       }
     }
   }
