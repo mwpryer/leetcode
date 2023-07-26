@@ -51,13 +51,12 @@
  * @return {boolean}
  */
 var isIsomorphic = function (s, t) {
-  const map = {}
-  const paired = {}
+  const map1 = {}
+  const map2 = {}
   for (let i = 0; i < s.length; i++) {
-    if (map[s[i]] && map[s[i]] !== t[i]) return false
-    if (!map[s[i]] && paired[t[i]]) return false
-    map[s[i]] = t[i]
-    paired[t[i]] = true
+    if (map1[s[i]] !== map2[t[i]]) return false
+    map1[s[i]] = i
+    map2[t[i]] = i
   }
   return true
 }
