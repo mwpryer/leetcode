@@ -75,9 +75,9 @@
  */
 var hammingWeight = function (n) {
   let count = 0
-  const str = n.toString(2)
-  for (const char of str) {
-    if (char === "1") count++
+  while (n !== 0) {
+    if ((n & 1) === 1) count++
+    n >>>= 1
   }
   return count
 }
