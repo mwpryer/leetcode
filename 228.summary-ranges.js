@@ -71,23 +71,13 @@
  * @return {string[]}
  */
 var summaryRanges = function (nums) {
-  if (!nums.length) return []
   const res = []
   let first = nums[0]
-  for (let i = 1; i < nums.length; i++) {
-    if (nums[i] !== nums[i - 1] + 1) {
-      if (first === nums[i - 1]) {
-        res.push(first.toString())
-      } else {
-        res.push(first + "->" + nums[i - 1])
-      }
-      first = nums[i]
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] + 1 !== nums[i + 1]) {
+      res.push(first + (first !== nums[i] ? "->" + nums[i] : ""))
+      first = nums[i + 1]
     }
-  }
-  if (first === nums[nums.length - 1]) {
-    res.push(first.toString())
-  } else {
-    res.push(first + "->" + nums[nums.length - 1])
   }
   return res
 }
