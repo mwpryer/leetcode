@@ -62,10 +62,15 @@
  */
 var invertTree = function (root) {
   if (!root) return null
-  const left = invertTree(root.left)
-  const right = invertTree(root.right)
-  root.left = right
-  root.right = left
+  const stack = [root]
+  while (stack.length > 0) {
+    const curr = stack.pop()
+    if (curr.left) stack.push(curr.left)
+    if (curr.right) stack.push(curr.right)
+    const temp = curr.left
+    curr.left = curr.right
+    curr.right = temp
+  }
   return root
 }
 // @lc code=end
