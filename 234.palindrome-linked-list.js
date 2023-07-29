@@ -56,14 +56,29 @@
  * @return {boolean}
  */
 var isPalindrome = function (head) {
-  const vals = []
-  let curr = head
-  while (curr) {
-    vals.push(curr.val)
-    curr = curr.next
+  // Find midpoint by traversing twice as fast to reach end
+  let mid = head
+  let end = head
+  while (end && end.next) {
+    mid = mid.next
+    end = end.next.next
   }
-  for (let i = 0; i < Math.floor(vals.length / 2); i++) {
-    if (vals[i] !== vals[vals.length - 1 - i]) return false
+  // Reverse second half of linked list
+  let curr = mid
+  let prev = null
+  while (curr) {
+    const next = curr.next
+    curr.next = prev
+    prev = curr
+    curr = next
+  }
+  // Compare first half with second half
+  let i = head
+  let j = prev
+  while (i && j) {
+    if (i.val !== j.val) return false
+    i = i.next
+    j = j.next
   }
   return true
 }
