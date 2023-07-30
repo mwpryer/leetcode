@@ -53,12 +53,6 @@
  * @return {number}
  */
 var addDigits = function (num) {
-  let digits = num.toString().split("")
-  let sum = digits.reduce((acc, cur) => acc + parseInt(cur), 0)
-  while (sum > 9) {
-    digits = sum.toString().split("")
-    sum = digits.reduce((acc, cur) => acc + parseInt(cur), 0)
-  }
-  return sum
+  return 1 + ((num - 1) % 9)
 }
 // @lc code=end
