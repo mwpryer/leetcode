@@ -57,10 +57,17 @@
  * @return {string[]}
  */
 var binaryTreePaths = function (root) {
-  if (!root) return []
-  if (!root.left && !root.right) return [root.val.toString()]
-  const left = binaryTreePaths(root.left)
-  const right = binaryTreePaths(root.right)
-  return [...left.map((path) => root.val + "->" + path), ...right.map((path) => root.val + "->" + path)]
+  const res = []
+  const stack = [[root, ""]]
+  while (stack.length > 0) {
+    const [curr, path] = stack.pop()
+    if (!curr.left && !curr.right) {
+      res.push(path + curr.val)
+    } else {
+      if (curr.left) stack.push([curr.left, path + curr.val + "->"])
+      if (curr.right) stack.push([curr.right, path + curr.val + "->"])
+    }
+  }
+  return res
 }
 // @lc code=end
