@@ -51,11 +51,12 @@
 var isAnagram = function (s, t) {
   if (s.length !== t.length) return false
   const map = {}
+  const base = "a".charCodeAt(0)
   for (let i = 0; i < s.length; i++) {
-    if (!map[s[i]]) map[s[i]] = 0
-    if (!map[t[i]]) map[t[i]] = 0
-    map[s[i]]++
-    map[t[i]]--
+    if (!map[s.charCodeAt(i) - base]) map[s.charCodeAt(i) - base] = 0
+    if (!map[t.charCodeAt(i) - base]) map[t.charCodeAt(i) - base] = 0
+    map[s.charCodeAt(i) - base]++
+    map[t.charCodeAt(i) - base]--
   }
   for (const val of Object.values(map)) {
     if (val !== 0) return false
