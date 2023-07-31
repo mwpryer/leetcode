@@ -44,21 +44,16 @@
  * @return {void} Do not return anything, modify nums in-place instead.
  */
 var moveZeroes = function (nums) {
-  let idx = -1
+  let count = 0
   for (let i = 0; i < nums.length; i++) {
     if (nums[i] === 0) {
-      // Save position of earliest zero
-      if (idx === -1) idx = i
+      count++
     } else {
-      if (idx >= 0) {
-        // Switch current value with earliest zero
-        nums[idx] = nums[i]
+      if (count > 0) {
+        nums[i - count] = nums[i]
         nums[i] = 0
-        i = idx
-        idx = -1
       }
     }
   }
-  return nums
 }
 // @lc code=end
