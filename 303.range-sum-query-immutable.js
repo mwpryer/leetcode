@@ -65,7 +65,10 @@
  * @param {number[]} nums
  */
 var NumArray = function (nums) {
-  this.nums = nums
+  this.sums = [nums[0]]
+  for (let i = 1; i < nums.length; i++) {
+    this.sums[i] = nums[i] + this.sums[i - 1]
+  }
 }
 
 /**
@@ -74,11 +77,7 @@ var NumArray = function (nums) {
  * @return {number}
  */
 NumArray.prototype.sumRange = function (left, right) {
-  let sum = 0
-  for (let i = left; i <= right; i++) {
-    sum += this.nums[i]
-  }
-  return sum
+  return this.sums[right] - (left > 0 ? this.sums[left - 1] : 0)
 }
 
 /**
