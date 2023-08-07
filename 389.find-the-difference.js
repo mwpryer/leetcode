@@ -54,14 +54,11 @@
  * @return {character}
  */
 var findTheDifference = function (s, t) {
-  const dict = {}
+  let sum = 0
   for (let i = 0; i < s.length; i++) {
-    if (!dict[s[i]]) dict[s[i]] = 0
-    dict[s[i]]++
+    sum = sum ^ s.charCodeAt(i) ^ t.charCodeAt(i)
   }
-  for (let i = 0; i < t.length; i++) {
-    if (!dict[t[i]]) return t[i]
-    dict[t[i]]--
-  }
+  sum = sum ^ t.charCodeAt(t.length - 1)
+  return String.fromCharCode(sum)
 }
 // @lc code=end
