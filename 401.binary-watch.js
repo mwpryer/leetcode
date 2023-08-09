@@ -66,14 +66,9 @@
 var readBinaryWatch = function (turnedOn) {
   function countBits(n) {
     let count = 0
-    let k = n
-    while (n > 0) {
-      let newN = n - 2 ** k
-      if (newN >= 0) {
-        n = newN
-        count++
-      }
-      k--
+    while (n) {
+      n &= n - 1
+      count++
     }
     return count
   }
