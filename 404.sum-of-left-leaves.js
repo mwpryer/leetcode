@@ -59,13 +59,18 @@
  * @return {number}
  */
 var sumOfLeftLeaves = function (root) {
-  function _sumOfLeftLeaves(root, isLeft) {
-    if (!root) return 0
-    if (!root.left && !root.right && isLeft) return root.val
-    const left = _sumOfLeftLeaves(root.left, true)
-    const right = _sumOfLeftLeaves(root.right, false)
-    return left + right
+  let sum = 0
+  const queue = [root]
+  while (queue.length > 0) {
+    const curr = queue.shift()
+    if (curr.left) {
+      if (!curr.left.left && !curr.left.right) {
+        sum += curr.left.val
+      }
+      queue.push(curr.left)
+    }
+    if (curr.right) queue.push(curr.right)
   }
-  return _sumOfLeftLeaves(root, false)
+  return sum
 }
 // @lc code=end
