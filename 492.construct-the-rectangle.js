@@ -71,16 +71,9 @@
  * @return {number[]}
  */
 var constructRectangle = function (area) {
-  let length = area
-  let width = 1
-  for (let i = 0; i < area; i++) {
-    if (area % i === 0) {
-      if (area / i >= i && area / i - i < length - width) {
-        length = area / i
-        width = i
-      }
-    }
+  for (let i = Math.floor(Math.sqrt(area)); i > 1; i--) {
+    if (area % i === 0) return [area / i, i]
   }
-  return [length, width]
+  return [area, 1]
 }
 // @lc code=end
