@@ -72,18 +72,17 @@
  * @return {number[]}
  */
 var nextGreaterElement = function (nums1, nums2) {
-  const res = []
-  for (let i = 0; i < nums1.length; i++) {
-    let found = false
-    let greater = -1
-    for (let j = 0; j < nums2.length; j++) {
-      if (found && nums2[j] > nums1[i]) {
-        greater = nums2[j]
-        break
-      }
-      if (nums2[j] === nums1[i]) found = true
+  const map = {}
+  const stack = []
+  for (const num2 of nums2) {
+    while (stack.length && stack[stack.length - 1] < num2) {
+      map[stack.pop()] = num2
     }
-    res.push(greater)
+    stack.push(num2)
+  }
+  let res = []
+  for (const num1 of nums1) {
+    res.push(map[num1] ? map[num1] : -1)
   }
   return res
 }
