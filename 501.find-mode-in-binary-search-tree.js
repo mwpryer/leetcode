@@ -70,21 +70,26 @@
  * @return {number[]}
  */
 var findMode = function (root) {
-  let mode = root.val
-  const counts = {}
-  const stack = [root]
-  while (stack.length > 0) {
-    const curr = stack.pop()
-    if (!counts[curr.val]) counts[curr.val] = 0
-    counts[curr.val]++
-    if (counts[curr.val] > counts[mode]) mode = curr.val
-    if (curr.left) stack.push(curr.left)
-    if (curr.right) stack.push(curr.right)
+  let modes = []
+  let count = 0
+  let max = 0
+  let prev = root.val
+  _findMode(root)
+  return modes
+
+  function _findMode(root) {
+    if (!root) return
+    _findMode(root.left)
+    if (root.val !== prev) count = 0
+    count++
+    if (count > max) {
+      max = count
+      modes = [root.val]
+    } else if (count === max) {
+      modes.push(root.val)
+    }
+    prev = root.val
+    _findMode(root.right)
   }
-  const res = []
-  for (const key in counts) {
-    if (counts[key] === counts[mode]) res.push(parseInt(key))
-  }
-  return res
 }
 // @lc code=end
