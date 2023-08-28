@@ -67,9 +67,14 @@
 var maxDepth = function (root) {
   if (!root) return 0
   let max = 0
-  for (const child of root.children) {
-    max = Math.max(max, maxDepth(child))
+  const stack = [[root, 1]]
+  while (stack.length > 0) {
+    const [node, depth] = stack.pop()
+    max = Math.max(max, depth)
+    for (const child of node.children) {
+      stack.push([child, depth + 1])
+    }
   }
-  return 1 + max
+  return max
 }
 // @lc code=end
