@@ -63,11 +63,17 @@
  */
 var matrixReshape = function (mat, r, c) {
   if (mat.length * mat[0].length !== r * c) return mat
-  const res = []
+  const res = new Array(r).fill().map(() => new Array(c).fill())
+  let x = 0
+  let y = 0
   for (let i = 0; i < mat.length; i++) {
     for (let j = 0; j < mat[0].length; j++) {
-      if ((i * mat[0].length + j) % c === 0) res.push([])
-      res[res.length - 1].push(mat[i][j])
+      res[x][y] = mat[i][j]
+      y++
+      if (y === c) {
+        x++
+        y = 0
+      }
     }
   }
   return res
