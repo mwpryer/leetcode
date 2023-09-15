@@ -61,9 +61,13 @@
  * @return {TreeNode}
  */
 var searchBST = function (root, val) {
-  if (!root) return null
-  if (root.val === val) return root
-  if (root.val > val) return searchBST(root.left, val)
-  if (root.val < val) return searchBST(root.right, val)
+  const stack = [root]
+  while (stack.length > 0) {
+    const node = stack.pop()
+    if (node.val === val) return node
+    if (node.left && node.val > val) stack.push(node.left)
+    if (node.right && node.val < val) stack.push(node.right)
+  }
+  return null
 }
 // @lc code=end
