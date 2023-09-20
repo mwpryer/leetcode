@@ -76,14 +76,12 @@
  * @return {number}
  */
 var pivotIndex = function (nums) {
-  const leftSums = [0]
-  const rightSums = [0]
+  let leftSum = 0
+  let rightSum = nums.reduce((acc, cur) => acc + cur, 0)
   for (let i = 0; i < nums.length; i++) {
-    leftSums.push(nums[i] + leftSums[i])
-    rightSums.push(nums[nums.length - 1 - i] + rightSums[i])
-  }
-  for (let i = 0; i < nums.length; i++) {
-    if (leftSums[i] === rightSums[nums.length - 1 - i]) return i
+    rightSum -= nums[i]
+    if (rightSum === leftSum) return i
+    leftSum += nums[i]
   }
   return -1
 }
