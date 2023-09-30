@@ -65,14 +65,23 @@
  */
 
 // @lc code=start
+const primes = new Set()
 function isPrime(num) {
-  if (num === 1) return false
-  if (num === 2) return true
-  if (num % 2 === 0) return false
-  for (let i = 3; i <= Math.sqrt(num); i += 2) {
-    if (num % i === 0) return false
+  if (primes.has(num)) return true
+  function _isPrime(num) {
+    if (num === 1) return false
+    if (num === 2) return true
+    if (num % 2 === 0) return false
+    for (let i = 3; i <= Math.sqrt(num); i += 2) {
+      if (num % i === 0) return false
+    }
+    return true
   }
-  return true
+  if (_isPrime(num)) {
+    primes.add(num)
+    return true
+  }
+  return false
 }
 function countBits(num) {
   let count = 0
