@@ -60,13 +60,18 @@
  */
 var minDiffInBST = function (root) {
   const vals = []
-  function traverse(node) {
-    if (!node) return
-    traverse(node.left)
-    vals.push(node.val)
-    traverse(node.right)
+  const stack = []
+  let curr = root
+  while (curr || stack.length > 0) {
+    if (curr) {
+      stack.push(curr)
+      curr = curr.left
+    } else {
+      curr = stack.pop()
+      vals.push(curr.val)
+      curr = curr.right
+    }
   }
-  traverse(root)
   let min = vals[1] - vals[0]
   for (let i = 2; i < vals.length; i++) {
     min = Math.min(min, vals[i] - vals[i - 1])
