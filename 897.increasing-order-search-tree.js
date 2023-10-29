@@ -56,22 +56,30 @@
  * @return {TreeNode}
  */
 var increasingBST = function (root) {
+  const stack = []
   let head = null
   let curr = null
-  function traverse(node) {
-    if (!node) return
-    traverse(node.left)
-    if (!head) {
-      head = node
-      curr = node
-    } else {
-      curr.right = node
-      curr = curr.right
-      node.left = null
+  while (root) {
+    while (root) {
+      stack.push(root)
+      root = root.left
     }
-    traverse(node.right)
+    while (stack.length > 0) {
+      const node = stack.pop()
+      if (!head) {
+        head = node
+        curr = node
+      } else {
+        curr.right = node
+        curr = curr.right
+        node.left = null
+      }
+      if (node.right) {
+        root = node.right
+        break
+      }
+    }
   }
-  traverse(root)
   return head
 }
 // @lc code=end
