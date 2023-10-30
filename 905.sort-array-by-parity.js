@@ -51,15 +51,13 @@
  * @return {number[]}
  */
 var sortArrayByParity = function (nums) {
-  const odds = []
-  const evens = []
-  for (const num of nums) {
-    if (num % 2 === 0) {
-      evens.push(num)
-    } else {
-      odds.push(num)
-    }
+  let i = 0
+  let j = nums.length - 1
+  while (i < j) {
+    if (nums[i] % 2 > nums[j] % 2) [nums[i], nums[j]] = [nums[j], nums[i]]
+    if (nums[i] % 2 === 0) i++
+    if (nums[j] % 2 === 1) j--
   }
-  return [...evens, ...odds]
+  return nums
 }
 // @lc code=end
