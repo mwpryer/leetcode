@@ -64,15 +64,22 @@
  * @return {number}
  */
 var rangeSumBST = function (root, low, high) {
-  if (!root) return 0
-  if (root.val < low) {
-    return rangeSumBST(root.right, low, high)
+  let sum = 0
+  const stack = [root]
+  while (stack.length > 0) {
+    const curr = stack.pop()
+    if (curr.val < low && curr.right) {
+      stack.push(curr.right)
+    }
+    if (curr.val > high && curr.left) {
+      stack.push(curr.left)
+    }
+    if (curr.val >= low && curr.val <= high) {
+      sum += curr.val
+      if (curr.left) stack.push(curr.left)
+      if (curr.right) stack.push(curr.right)
+    }
   }
-  if (root.val > high) {
-    return rangeSumBST(root.left, low, high)
-  }
-  if (root.val >= low && root.val <= high) {
-    return root.val + rangeSumBST(root.right, low, high) + rangeSumBST(root.left, low, high)
-  }
+  return sum
 }
 // @lc code=end
