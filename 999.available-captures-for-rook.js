@@ -86,36 +86,19 @@ var numRookCaptures = function (board) {
 
   let pawnCount = 0
   const [x, y] = rookPos
-  // Left
-  for (let i = y; i >= 0; i--) {
-    if (board[x][i] === "B") break
-    if (board[x][i] === "p") {
-      pawnCount++
-      break
-    }
-  }
-  // Right
-  for (let i = y; i < board[x].length; i++) {
-    if (board[x][i] === "B") break
-    if (board[x][i] === "p") {
-      pawnCount++
-      break
-    }
-  }
-  // Up
-  for (let i = x; i >= 0; i--) {
-    if (board[i][y] === "B") break
-    if (board[i][y] === "p") {
-      pawnCount++
-      break
-    }
-  }
-  // Down
-  for (let i = x; i < board.length; i++) {
-    if (board[i][y] === "B") break
-    if (board[i][y] === "p") {
-      pawnCount++
-      break
+  const dirs = [
+    [-1, 0],
+    [1, 0],
+    [0, -1],
+    [0, 1],
+  ]
+  for (const dir of dirs) {
+    for (let i = x + dir[0], j = y + dir[1]; i >= 0 && i < 8 && j >= 0 && j < 8; i += dir[0], j += dir[1]) {
+      if (board[i][j] === "B") break
+      if (board[i][j] === "p") {
+        pawnCount++
+        break
+      }
     }
   }
   return pawnCount
