@@ -67,23 +67,12 @@
  * @return {number[][]}
  */
 var findMatrix = function (nums) {
-  const counts = {}
-  for (const num of nums) {
-    if (!counts[num]) counts[num] = 0
-    counts[num]++
-  }
   const res = []
-  let n = nums.length
-  while (n > 0) {
-    const row = []
-    for (const num in counts) {
-      if (counts[num] > 0) {
-        row.push(num)
-        counts[num]--
-        n--
-      }
-    }
-    res.push(row)
+  const freqs = new Array(nums.length + 1).fill(0)
+  for (const num of nums) {
+    if (freqs[num] >= res.length) res.push([])
+    res[freqs[num]].push(num)
+    freqs[num]++
   }
   return res
 }
