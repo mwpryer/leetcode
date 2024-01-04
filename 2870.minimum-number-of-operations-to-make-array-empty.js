@@ -77,15 +77,8 @@ var minOperations = function (nums) {
   let res = 0
   for (const num in counts) {
     if (counts[num] === 1) return -1
-    while (counts[num] > 1) {
-      if (counts[num] >= 3 && counts[num] !== 4) {
-        counts[num] -= 3
-        res++
-      } else {
-        counts[num] -= 2
-        res++
-      }
-    }
+    res += Math.floor(counts[num] / 3)
+    if (counts[num] % 3 !== 0) res++
   }
   return res
 }
