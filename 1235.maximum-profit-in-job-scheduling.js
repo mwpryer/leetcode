@@ -76,24 +76,29 @@
  */
 var jobScheduling = function (startTime, endTime, profit) {
   const jobs = []
-  // Group and sort by end time
+  // Group and sort by start time
   for (let i = 0; i < startTime.length; i++) {
     jobs.push([startTime[i], endTime[i], profit[i]])
   }
-  jobs.sort((a, b) => a[1] - b[1])
+  jobs.sort((a, b) => a[0] - b[0])
 
   // Dynamic programming table for maximum profit at time i
-  const dp = new Array(jobs.length).fill(0)
-  dp[0] = jobs[0][2]
-  for (let curr = 1; curr < jobs.length; curr++) {
-    // Find the last job that ends before the current job starts
-    let prev = curr - 1
-    while (prev >= 0 && jobs[prev][1] > jobs[curr][0]) {
-      prev--
+  const dp = new Array(jobs.length + 1).fill(0)
+  for (let curr = jobs.length - 1; curr >= 0; curr--) {
+    // Binary search to find the next job that starts after the current job ends
+    let left = curr + 1
+    let right = jobs.length
+    while (left < right) {
+      const mid = left + Math.floor((right - left) / 2)
+      if (jobs[mid][0] < jobs[curr][1]) {
+        left = mid + 1
+      } else {
+        right = mid
+      }
     }
     // Schedule current job or skip it
-    dp[curr] = Math.max(dp[curr - 1], jobs[curr][2] + (prev >= 0 ? dp[prev] : 0))
+    dp[curr] = Math.max(dp[curr + 1], jobs[curr][2] + dp[left])
   }
-  return dp[jobs.length - 1]
+  return dp[0]
 }
 // @lc code=end
