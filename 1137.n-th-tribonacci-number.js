@@ -53,13 +53,13 @@
  * @return {number}
  */
 var tribonacci = function (n) {
-  const sequence = new Array(n + 1).fill(0)
+  const sequence = [0, 1, 1]
   sequence[0] = 0
   sequence[1] = 1
   sequence[2] = 1
   for (let i = 3; i <= n; i++) {
-    sequence[i] = sequence[i - 3] + sequence[i - 2] + sequence[i - 1]
+    sequence[i % 3] = sequence[0] + sequence[1] + sequence[2]
   }
-  return sequence[n]
+  return sequence[n % 3]
 }
 // @lc code=end
