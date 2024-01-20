@@ -54,16 +54,16 @@
  */
 var sumSubarrayMins = function (arr) {
   let sum = 0
+  arr.push(0)
+  const stack = [-1]
   for (let i = 0; i < arr.length; i++) {
-    let left = i - 1
-    let right = i + 1
-    while (left >= 0 && arr[left] >= arr[i]) {
-      left--
+    while (arr[i] < arr[stack[stack.length - 1]]) {
+      mid = stack.pop()
+      const left = mid - stack[stack.length - 1]
+      const right = i - mid
+      sum += arr[mid] * left * right
     }
-    while (right < arr.length && arr[right] > arr[i]) {
-      right++
-    }
-    sum += arr[i] * (i - left) * (right - i)
+    stack.push(i)
   }
   return sum % (10 ** 9 + 7)
 }
