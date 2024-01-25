@@ -66,29 +66,34 @@
  */
 
 // @lc code=start
-function getSequences(arr) {
-  const sequences = []
-  function _getSequences(i, sequence) {
-    if (i > arr.length - 1) return sequences.push(sequence)
-    _getSequences(i + 1, sequence)
-    _getSequences(i + 1, sequence + arr[i])
+function isOverlap(chars, str) {
+  const seen = new Set()
+  for (const ch of str) {
+    if (chars.has(ch) || seen.has(ch)) return true
+    seen.add(ch)
   }
-  _getSequences(0, "")
-  return sequences
-}
-function isValid(str) {
-  return new Set(str).size === str.length
+  return false
 }
 /**
  * @param {string[]} arr
  * @return {number}
  */
 var maxLength = function (arr) {
-  const sequences = getSequences(arr)
-  let max = 0
-  for (const sequence of sequences) {
-    if (isValid(sequence)) max = Math.max(max, sequence.length)
+  const chars = new Set()
+  function backtrack(i) {
+    if (i === arr.length) return chars.size
+    let length = 0
+    if (!isOverlap(chars, arr[i])) {
+      for (const c of arr[i]) {
+        chars.add(c)
+      }
+      length = backtrack(i + 1)
+      for (const c of arr[i]) {
+        chars.delete(c)
+      }
+    }
+    return Math.max(length, backtrack(i + 1))
   }
-  return max
+  return backtrack(0)
 }
 // @lc code=end
