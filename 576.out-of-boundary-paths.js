@@ -59,27 +59,30 @@
  * @return {number}
  */
 var findPaths = function (m, n, maxMove, startRow, startColumn) {
-  const cache = new Array(maxMove).fill().map(() => new Array(m).fill().map(() => new Array(n).fill(-1)))
+  const dp = new Array(2).fill().map(() => new Array(m).fill().map(() => new Array(n).fill(0)))
   const dirs = [
-    [0, 1],
-    [0, -1],
-    [1, 0],
     [-1, 0],
+    [1, 0],
+    [0, -1],
+    [0, 1],
   ]
-  function bfs(i, j, moves) {
-    if (i < 0 || i >= m || j < 0 || j >= n) return 1
-    if (moves === 0) return 0
-    if (cache[moves - 1][i][j] !== -1) return cache[moves - 1][i][j]
-    let sum = 0
-    for (const [dx, dy] of dirs) {
-      const x = i + dx
-      const y = j + dy
-      sum += bfs(x, y, moves - 1)
+  for (let k = 1; k <= maxMove; k++) {
+    for (let i = 0; i < m; i++) {
+      for (let j = 0; j < n; j++) {
+        let sum = 0
+        for (const [dx, dy] of dirs) {
+          const x = i + dx
+          const y = j + dy
+          if (x < 0 || x >= m || y < 0 || y >= n) {
+            sum++
+          } else {
+            sum += dp[(k - 1) % 2][x][y]
+          }
+        }
+        dp[k % 2][i][j] = sum % (10 ** 9 + 7)
+      }
     }
-    sum %= 10 ** 9 + 7
-    cache[moves - 1][i][j] = sum
-    return sum
   }
-  return bfs(startRow, startColumn, maxMove)
+  return dp[maxMove % 2][startRow][startColumn]
 }
 // @lc code=end
