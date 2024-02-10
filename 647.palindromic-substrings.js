@@ -47,25 +47,26 @@
  */
 
 // @lc code=start
-function isPalindrome(str) {
-  for (let i = 0; i < Math.floor(str.length / 2); i++) {
-    if (str[i] !== str[str.length - i - 1]) return false
-  }
-  return true
-}
 /**
  * @param {string} s
  * @return {number}
  */
 var countSubstrings = function (s) {
-  let res = 0
+  const dp = new Array(s.length).fill().map(() => new Array(s.length).fill(false))
   for (let i = 0; i < s.length; i++) {
-    let str = ""
-    for (let j = i; j < s.length; j++) {
-      str += s[j]
-      if (isPalindrome(str)) res++
+    dp[i][i] = true
+  }
+  let count = s.length
+  for (let i = s.length - 1; i >= 0; i--) {
+    for (let j = i + 1; j < s.length; j++) {
+      if (s[i] === s[j]) {
+        if (j - i === 1 || dp[i + 1][j - 1]) {
+          dp[i][j] = true
+          count++
+        }
+      }
     }
   }
-  return res
+  return count
 }
 // @lc code=end
