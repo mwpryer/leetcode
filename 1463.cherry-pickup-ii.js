@@ -83,24 +83,30 @@
 var cherryPickup = function (grid) {
   const rows = grid.length
   const cols = grid[0].length
-  const memo = new Array(rows).fill().map(() => new Array(cols).fill().map(() => new Array(cols).fill(-1)))
+  const dp = new Array(rows).fill().map(() => new Array(cols).fill().map(() => new Array(cols).fill(-1)))
 
-  function dfs(row, col1, col2) {
-    if (col1 < 0 || col1 >= cols || col2 < 0 || col2 >= cols || col1 >= col2) return 0
+  for (let col1 = 0; col1 < cols; col1++) {
+    for (let col2 = 0; col2 < cols; col2++) {
+      dp[rows - 1][col1][col2] = grid[rows - 1][col1] + (col1 !== col2 ? grid[rows - 1][col2] : 0)
+    }
+  }
 
-    if (memo[row][col1][col2] !== -1) return memo[row][col1][col2]
-    if (row === rows - 1) return grid[row][col1] + grid[row][col2]
-
-    let max = 0
-    for (let i = -1; i <= 1; i++) {
-      for (let j = -1; j <= 1; j++) {
-        const rest = dfs(row + 1, col1 + i, col2 + j)
-        max = Math.max(max, rest + grid[row][col1] + grid[row][col2])
+  for (let row = rows - 2; row >= 0; row--) {
+    for (let col1 = 0; col1 < cols; col1++) {
+      for (let col2 = 0; col2 < cols; col2++) {
+        let max = 0
+        for (let i = -1; i <= 1; i++) {
+          for (let j = -1; j <= 1; j++) {
+            if (col1 + i < 0 || col1 + i >= cols || col2 + j < 0 || col2 + j >= cols) continue
+            const next = dp[row + 1][col1 + i][col2 + j]
+            max = Math.max(max, next + grid[row][col1] + (col1 !== col2 ? grid[row][col2] : 0))
+          }
+        }
+        dp[row][col1][col2] = max
       }
     }
-    memo[row][col1][col2] = max
-    return max
   }
-  return dfs(0, 0, cols - 1)
+
+  return dp[0][0][cols - 1]
 }
 // @lc code=end
