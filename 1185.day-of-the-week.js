@@ -53,6 +53,9 @@
  */
 
 // @lc code=start
+function isLeapYear(year) {
+  return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0
+}
 /**
  * @param {number} day
  * @param {number} month
@@ -60,17 +63,25 @@
  * @return {string}
  */
 var dayOfTheWeek = function (day, month, year) {
-  const days = ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-  // Zeller's Congruence
-  if (month < 3) {
-    month += 12
-    year -= 1
+  const dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+  const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+  // Get total days from 1971-01-01 to the given date
+  function getTotalDays(day, month, year) {
+    let days = 0
+    for (let i = 1971; i < year; i++) {
+      days += 365 + (isLeapYear(i) ? 1 : 0)
+    }
+    for (let i = 0; i < month - 1; i++) {
+      days += daysInMonth[i]
+    }
+    if (month > 2 && isLeapYear(year)) days++
+    days += day
+    return days
   }
-  const q = day
-  const m = month
-  const K = year % 100
-  const J = Math.floor(year / 100)
-  const h = (q + Math.floor((13 * (m + 1)) / 5) + K + Math.floor(K / 4) + Math.floor(J / 4) - 2 * J) % 7
-  return days[(h + 7) % 7]
+
+  const today = getTotalDays(12, 2, 2024)
+  const date = getTotalDays(day, month, year)
+  return dayNames[(((date - today) % 7) + 7) % 7]
 }
 // @lc code=end
