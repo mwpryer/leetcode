@@ -78,13 +78,11 @@
  */
 var largestPerimeter = function (nums) {
   nums.sort((a, b) => a - b)
-  const sums = new Array(nums.length).fill(0)
-  sums[0] = nums[0]
-  sums[1] = sums[0] + nums[1]
+  let sum = nums[0] + nums[1]
   let max = -1
   for (let end = 2; end < nums.length; end++) {
-    sums[end] = sums[end - 1] + nums[end]
-    if (sums[end] - nums[end] > nums[end]) max = Math.max(max, sums[end])
+    sum += nums[end]
+    if (sum - nums[end] > nums[end]) max = Math.max(max, sum)
   }
   return max
 }
