@@ -66,17 +66,14 @@
  */
 var minimumAbsDifference = function (arr) {
   arr.sort((a, b) => a - b)
-  let res = []
+  const pairs = {}
   let min = Math.abs(arr[1] - arr[0])
   for (let i = 0; i < arr.length - 1; i++) {
     const diff = Math.abs(arr[i + 1] - arr[i])
-    if (diff < min) {
-      res = [[arr[i], arr[i + 1]]]
-      min = diff
-    } else if (diff === min) {
-      res.push([arr[i], arr[i + 1]])
-    }
+    min = Math.min(min, diff)
+    if (!pairs[diff]) pairs[diff] = []
+    pairs[diff].push([arr[i], arr[i + 1]])
   }
-  return res
+  return pairs[min]
 }
 // @lc code=end
