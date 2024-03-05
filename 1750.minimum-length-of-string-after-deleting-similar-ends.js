@@ -80,15 +80,13 @@ var minimumLength = function (s) {
   let right = s.length - 1
 
   while (left < right && s[left] === s[right]) {
-    while (s[left] === s[left + 1] && left < right) {
+    const ch = s[left]
+    while (s[left] === ch && left <= right) {
       left++
     }
-    while (s[right] === s[right - 1] && right > left) {
+    while (s[right] === ch && right >= left) {
       right--
     }
-    if (left === right) return 0
-    left++
-    right--
   }
 
   return right - left + 1
