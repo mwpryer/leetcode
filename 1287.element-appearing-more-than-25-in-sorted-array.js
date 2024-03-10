@@ -49,16 +49,8 @@
  */
 var findSpecialInteger = function (arr) {
   let target = Math.floor(arr.length / 4)
-  let prev = null
-  let count = 0
-  for (const num of arr) {
-    if (num === prev) {
-      count++
-    } else {
-      count = 1
-    }
-    if (count > target) return num
-    prev = num
+  for (let i = 0; i < arr.length - target; i++) {
+    if (arr[i] === arr[i + target]) return arr[i]
   }
 }
 // @lc code=end
