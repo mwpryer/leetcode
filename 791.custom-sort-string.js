@@ -74,13 +74,21 @@
  * @return {string}
  */
 var customSortString = function (order, s) {
-  const map = {}
-  for (let i = 0; i < order.length; i++) {
-    map[order[i]] = i
+  const counts = new Map()
+  for (const ch of order) {
+    counts.set(ch, 0)
+  }
+  for (const ch of s) {
+    if (counts.has(ch)) counts.set(ch, counts.get(ch) + 1)
   }
 
-  const chs = s.split("")
-  chs.sort((a, b) => (map[a] ?? order.length) - (map[b] ?? order.length))
-  return chs.join("")
+  let res = ""
+  for (const ch of order) {
+    res += ch.repeat(counts.get(ch))
+  }
+  for (const ch of s) {
+    if (!counts.has(ch)) res += ch
+  }
+  return res
 }
 // @lc code=end
