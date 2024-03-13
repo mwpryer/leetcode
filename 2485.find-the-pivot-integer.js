@@ -65,12 +65,8 @@
  * @return {number}
  */
 var pivotInteger = function (n) {
-  const total = (n * (n + 1)) / 2
-  for (let x = 1; x <= n; x++) {
-    const left = (x * (x + 1)) / 2
-    const right = total - ((x - 1) * x) / 2
-    if (left === right) return x
-  }
-  return -1
+  let x = Math.sqrt((n * (n + 1)) / 2)
+  if (x % 1 !== 0) return -1
+  return Math.floor(x)
 }
 // @lc code=end
