@@ -56,13 +56,16 @@
  */
 var numSubarraysWithSum = function (nums, goal) {
   let count = 0
-  for (let i = 0; i < nums.length; i++) {
-    let sum = 0
-    for (let j = i; j < nums.length; j++) {
-      sum += nums[j]
-      if (sum === goal) count++
-    }
+  let sum = 0
+  const prefixSums = new Map()
+  prefixSums.set(0, 1)
+
+  for (const num of nums) {
+    sum += num
+    if (prefixSums.has(sum - goal)) count += prefixSums.get(sum - goal)
+    prefixSums.set(sum, (prefixSums.get(sum) || 0) + 1)
   }
+
   return count
 }
 // @lc code=end
