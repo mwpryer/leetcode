@@ -55,17 +55,21 @@
  * @return {number}
  */
 var numSubarraysWithSum = function (nums, goal) {
-  let count = 0
-  let sum = 0
-  const prefixSums = new Map()
-  prefixSums.set(0, 1)
-
-  for (const num of nums) {
-    sum += num
-    if (prefixSums.has(sum - goal)) count += prefixSums.get(sum - goal)
-    prefixSums.set(sum, (prefixSums.get(sum) || 0) + 1)
+  function numArraysWithAtMostSum(goal) {
+    if (goal < 0) return 0
+    let res = 0
+    let curr = 0
+    let left = 0
+    for (let right = 0; right < nums.length; right++) {
+      curr += nums[right]
+      while (curr > goal) {
+        curr -= nums[left]
+        left++
+      }
+      res += right - left + 1
+    }
+    return res
   }
-
-  return count
+  return numArraysWithAtMostSum(goal) - numArraysWithAtMostSum(goal - 1)
 }
 // @lc code=end
